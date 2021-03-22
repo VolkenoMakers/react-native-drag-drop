@@ -1,4 +1,4 @@
-# react-native-drag-drop
+# volkeno-react-native-drag-drop
 ![Single select](https://raw.githubusercontent.com/VolkenoMakers/react-native-drag-drop/main/demo.gif)
 ## Add it to your project
   - Using NPM
