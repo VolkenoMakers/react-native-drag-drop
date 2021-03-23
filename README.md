@@ -133,19 +133,23 @@ const styles = StyleSheet.create({
 
 ## Properties
 
-| Property name             | Type       | Description                                                                                                |
-| ------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
-| **style**                 | _Object_   | Custom style for ScrollView component                                                                      |
-| **contentContainerStyle** | _Object_   | Custom style for ScrollView contentContainerStyle                                                          |
-| **itemKeyExtractor**      | _Function_ | function that take an item as a parameter then return the id of the item                                   |
-| **zoneKeyExtractor**      | _Function_ | function that take a zone as a parameter then return the id of the item                                    |
-| **zones**                 | _Array_    | array contains the drops area                                                                              |
-| **items**                 | _Array_    | array contains draggable items                                                                             |
-| **itemsContainerStyle**   | _Object_   | Custom style for the container of the draggable items                                                      |
-| **zonesContainerStyle**   | _Object_   | Custom style for the container of the drop zones                                                           |
-| **itemsInZoneStyle**      | _Object_   | Custom style for the item in the drop area                                                                 |
-| **onMaj**                 | _Function_ | The callback function trigger when there are changes on the items or the zones                             |
-| **renderItem**            | _Function_ | Function to render an item                                                                                 |
-| **renderZone**            | _Function_ | Function to render a drop zone **important** the chidren parameter is the draggable items in the drop area |
+| Property name             | Type       | Description                                                              |
+| ------------------------- | ---------- | ------------------------------------------------------------------------ |
+| **style**                 | _Object_   | Custom style for ScrollView component                                    |
+| **contentContainerStyle** | _Object_   | Custom style for ScrollView contentContainerStyle                        |
+| **itemKeyExtractor**      | _Function_ | function that take an item as a parameter then return the id of the item |
+| **zoneKeyExtractor**      | _Function_ | function that take a zone as a parameter then return the id of the item  |
+| **zones**                 | _Array_    | array contains the drops area                                            |
+| **items**                 | _Array_    | array contains draggable items                                           |
+
+| **itemsContainerHeightFixe** | _boolean_ | if true the height of itemsContainer will bi fixe items |
+|
+| **itemsContainerStyle** | _Object_ | Custom style for the container of the draggable items |
+|
+**zonesContainerStyle** | _Object_ | Custom style for the container of the drop zones |
+| **itemsInZoneStyle** | _Object_ | Custom style for the item in the drop area |
+| **onMaj** | _Function_ | The callback function trigger when there are changes on the items or the zones |
+| **renderItem** | _Function_ | Function to render an item |
+| **renderZone** | _Function_ | Function to render a drop zone **important** the chidren parameter is the draggable items in the drop area |
 
 **ISC Licensed**
