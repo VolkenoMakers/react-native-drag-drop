@@ -141,11 +141,8 @@ const styles = StyleSheet.create({
 | **zoneKeyExtractor**      | _Function_ | function that take a zone as a parameter then return the id of the item  |
 | **zones**                 | _Array_    | array contains the drops area                                            |
 | **items**                 | _Array_    | array contains draggable items                                           |
-
 | **itemsContainerHeightFixe** | _boolean_ | if true the height of itemsContainer will bi fixe items |
-|
 | **itemsContainerStyle** | _Object_ | Custom style for the container of the draggable items |
-|
 **zonesContainerStyle** | _Object_ | Custom style for the container of the drop zones |
 | **itemsInZoneStyle** | _Object_ | Custom style for the item in the drop area |
 | **onMaj** | _Function_ | The callback function trigger when there are changes on the items or the zones |
