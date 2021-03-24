@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
 
 | **itemsContainerHeightFixe** | _boolean_ | if true the height of itemsContainer will bi fixe items |
 | **itemsContainerStyle** | _Object_ | Custom style for the container of the draggable items |
-|
 **zonesContainerStyle** | _Object_ | Custom style for the container of the drop zones |
 | **itemsInZoneStyle** | _Object_ | Custom style for the item in the drop area |
 | **onMaj** | _Function_ | The callback function trigger when there are changes on the items or the zones |
