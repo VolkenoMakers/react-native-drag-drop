@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
 | Property name             | Type       | Description                                                                                                |
 | ------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
 | **style**                 | _Object_   | Custom style for ScrollView component                                                                      |
+| **maxItemsPerZone**       | _Number_   | max items inside a drop area default to null (no limit)                                                    |
 | **contentContainerStyle** | _Object_   | Custom style for ScrollView contentContainerStyle                                                          |
 | **itemKeyExtractor**      | _Function_ | function that take an item as a parameter then return the id of the item                                   |
 | **zoneKeyExtractor**      | _Function_ | function that take a zone as a parameter then return the id of the item                                    |
