@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
 | Property name             | Type             | Description                                                                                                |
 | ------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------- |
 | **style**                 | _Object_         | Custom style for ScrollView component                                                                      |
+| **draggedElementStyle**   | _Object_         | Custom style for the dragged item                                                                          |
 | **maxItemsPerZone**       | _Number_         | max items inside a drop area default to null (no limit)                                                    |
 | **headerComponent**       | **ReactElement** | render a header                                                                                            |
 | **footerComponent**       | **ReactElement** | render a footer                                                                                            |
