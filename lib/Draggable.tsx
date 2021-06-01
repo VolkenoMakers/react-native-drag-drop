@@ -1,12 +1,46 @@
 import React, { Component } from "react";
-import { Animated, PanResponder, Pressable } from "react-native";
-class Draggable extends Component {
+import {
+  Animated,
+  GestureResponderEvent,
+  PanResponder,
+  PanResponderGestureState,
+  PanResponderInstance,
+  Pressable,
+  ViewStyle,
+} from "react-native";
+import { LayoutProps } from "./Container";
+
+export interface DraggableState {
+  pan: Animated.ValueXY;
+  dragging: boolean;
+  pressed: boolean;
+}
+
+export interface DraggableProps {
+  addedHeight: number;
+  layout: LayoutProps;
+  onDrag: (
+    gestureState: PanResponderGestureState,
+    layout: LayoutProps,
+    cb: Function,
+    zoneId: any
+  ) => any;
+  onGrant: (value: boolean) => any;
+  onDragEnd: (gesture: PanResponderGestureState) => boolean;
+  draggedElementStyle: ViewStyle;
+  style: ViewStyle;
+}
+class Draggable extends Component<DraggableProps, DraggableState> {
   state = {
     pan: new Animated.ValueXY(),
     dragging: false,
     pressed: false,
   };
-  onResponderMove = (e, gesture) => {
+  panResponder?: PanResponderInstance = null;
+  onResponderMove = (
+    e: GestureResponderEvent,
+    gesture: PanResponderGestureState
+  ) => {
     this.state.pan.setValue({
       x: gesture.dx,
       y: gesture.dy + this.props.addedHeight,
@@ -16,22 +50,21 @@ class Draggable extends Component {
         x: gesture.dx,
         y: gesture.dy + this.props.addedHeight,
       });
-      // this.onResponderMove(e, gesture);
     });
   };
-  onDragEnd = (e, gesture) => {
-    this.setState((old) => {
+  onDragEnd = (e: GestureResponderEvent, gesture: PanResponderGestureState) => {
+    this.setState((old: DraggableState): DraggableState => {
       if (old.dragging) {
-        this.props.onGrant(false);
+        this.props.onGrant(true);
         if (!this.props.onDragEnd(gesture)) {
           this.state.pan.setValue({ x: 0, y: 0 });
         }
-        return { dragging: false, pressed: false };
+        return { ...old, dragging: false, pressed: false };
       }
       return old;
     });
   };
-  onEnd = (e, gesture) => {
+  onEnd = (e: GestureResponderEvent, gesture: PanResponderGestureState) => {
     this.onDragEnd(e, gesture);
   };
   UNSAFE_componentWillMount() {
@@ -55,9 +88,11 @@ class Draggable extends Component {
     });
   }
   render() {
-    const panStyle = {
+    const panStyle: ViewStyle = {
+      //@ts-ignore
       transform: this.state.pan.getTranslateTransform(),
     };
+
     let { draggedElementStyle, style } = this.props;
     if (this.state.pressed) {
       style = { ...style, ...draggedElementStyle };
@@ -67,7 +102,6 @@ class Draggable extends Component {
       panStyle.elevation = 1000;
       style = { ...style, ...(draggedElementStyle || { opacity: 0.6 }) };
     }
-
     return (
       <Animated.View
         {...this.panResponder.panHandlers}

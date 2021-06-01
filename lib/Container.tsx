@@ -1,19 +1,32 @@
-import React, { Component } from "react";
-import { View } from "react-native";
+import React, { Component, ReactElement } from "react";
+import { LayoutChangeEvent, View } from "react-native";
 
-class Container extends Component {
-  state = {
-    layout: null,
-  };
-  ref = React.createRef();
+export type LayoutProps = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+export interface ContainerState {
+  layout: LayoutProps | null;
+}
+export interface ContainerProps {
+  changed?: boolean;
+  children?: ReactElement;
+}
+class Container<
+  P extends ContainerProps,
+  S extends ContainerState
+> extends Component<P, S> {
+  ref: any;
   onLayoutCallback = () => {};
-  //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
-  UNSAFE_componentWillReceiveProps({ changed }) {
+
+  UNSAFE_componentWillReceiveProps({ changed }: ContainerProps) {
     if (changed && !this.props.changed) {
-      this.onSetLayout();
+      this.onSetLayout(null);
     }
   }
-  onSetLayout = (e) => {
+  onSetLayout = (e: LayoutChangeEvent | null) => {
     if (this.ref.current) {
       if (this.ref.current.measure) {
         this.ref.current.measure((fx, fy, width, height, px, py) => {
@@ -33,7 +46,7 @@ class Container extends Component {
   render() {
     const { children } = this.props;
     return (
-      <View ref={this.ref} onLayout={(e) => this.onSetLayout()}>
+      <View ref={this.ref} onLayout={(e) => this.onSetLayout(e)}>
         {React.cloneElement(children, {
           layout: this.state.layout,
         })}

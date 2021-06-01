@@ -1,12 +1,44 @@
-import React from "react";
-import Container from "./Container";
+import React, { ReactElement } from "react";
 import ItemsContainer from "./ItemsContainer";
+import { PanResponderGestureState, View, ViewStyle } from "react-native";
+import Container, {
+  ContainerProps,
+  ContainerState,
+  LayoutProps,
+} from "./Container";
 
-class DragZOne extends Container {
+interface DragZOneState extends ContainerState {
+  layout: LayoutProps;
+}
+interface DragZOneProps extends ContainerProps {
+  addedHeight: number;
+  onDrag: (
+    gestureState: PanResponderGestureState,
+    layout: LayoutProps,
+    cb: Function,
+    zoneId: any
+  ) => any;
+  onGrant: (value: boolean) => any;
+  onDragEnd: (gesture: PanResponderGestureState) => boolean;
+  draggedElementStyle?: ViewStyle;
+  itemKeyExtractor: (item: any) => number | string;
+  itemsInZoneStyle?: ViewStyle;
+  zoneId: any;
+  zone: any;
+  onZoneLayoutChange: (zoneId: any, layout: LayoutProps) => any;
+  renderItem: (item: any) => ReactElement;
+  renderZone: (
+    zone: any,
+    children?: ReactElement,
+    hover?: boolean
+  ) => ReactElement;
+}
+class DragZOne extends Container<DragZOneProps, DragZOneState> {
+  ref = React.createRef<View>();
   onLayoutCallback = () => {
     this.props.onZoneLayoutChange(this.props.zoneId, this.state.layout);
   };
-  renderItems = (items) => {
+  renderItems = (items): ReactElement => {
     const {
       renderItem,
       itemKeyExtractor,
@@ -42,7 +74,7 @@ class DragZOne extends Container {
     const { renderZone, zone } = this.props;
     const hover = zone.layout?.hover;
     const child = renderZone(zone, this.renderItems(zone.items), hover);
-    const newStyle = {};
+    const newStyle: ViewStyle = {};
     if (zone.dragged) {
       newStyle.zIndex = 10000;
       newStyle.elevation = 10000;

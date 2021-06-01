@@ -1,23 +1,74 @@
-import React from "react";
-import { Platform, ScrollView } from "react-native";
-import Container from "./Container";
+import React, { ReactElement } from "react";
+import { PanResponderGestureState, ScrollView } from "react-native";
+import { ViewStyle } from "react-native/Libraries/StyleSheet/StyleSheet";
+import Container, {
+  ContainerProps,
+  ContainerState,
+  LayoutProps,
+} from "./Container";
 import ItemsContainer from "./ItemsContainer";
 import ZonesContainer from "./ZonesContainer";
+interface DragAndDropState extends ContainerState {
+  items: [any];
+  zones: [any];
+  dragging: boolean;
+  layout: LayoutProps;
+  scrollY: number;
+  changed?: boolean;
+  contentSize?: {
+    width: number;
+    height: number;
+  };
+  counter: number;
+  itemsContainerLayout: LayoutProps;
+  addedHeight: number;
+}
+interface DragAndDropProps extends ContainerProps {
+  items: [any];
+  zones: [any];
+  zoneKeyExtractor: (zone: any) => string | number;
+  itemKeyExtractor: (zone: any) => string | number;
+  maxItemsPerZone?: number;
+  onMaj: (zones: [any], items: [any]) => any;
+  itemsInZoneStyle?: ViewStyle;
+  style?: ViewStyle;
+  contentContainerStyle?: ViewStyle;
+  draggedElementStyle?: ViewStyle;
+  headerComponent?: ReactElement;
+  footerComponent?: ReactElement;
+  itemsContainerHeightFixe?: boolean;
+  renderItem: (item: any) => ReactElement;
+  itemsContainerStyle?: ViewStyle;
+  zonesContainerStyle?: ViewStyle;
+  renderZone: (
+    zone: any,
+    children?: ReactElement,
+    hover?: boolean
+  ) => ReactElement;
+}
 
 const PERCENT = 0.15;
-class DragAndDrop extends Container {
+class DragAndDrop extends Container<DragAndDropProps, DragAndDropState> {
   state = {
     items: this.props.items,
     zones: this.props.zones,
     dragging: false,
     layout: null,
+    changed: null,
+    contentSize: null,
     scrollY: 0,
     counter: 0,
     itemsContainerLayout: null,
     addedHeight: 0,
   };
   timeout = null;
-  onDrag = (gesture, layoutElement, cb, zoneId) => {
+  ref = React.createRef<ScrollView>();
+  onDrag = (
+    gesture: PanResponderGestureState,
+    layoutElement: LayoutProps,
+    cb: Function,
+    zoneId: any
+  ) => {
     const cb2 = () => {
       setTimeout(() => {
         if (this.state.dragging) {
@@ -38,13 +89,13 @@ class DragAndDrop extends Container {
     if (!this.timeout) {
       this.timeout = setTimeout(() => {
         const div = gesture.moveY / this.state.layout.height;
-        let added = parseInt(HEIGHT * 0.5);
+        let added = parseInt(String(HEIGHT * 0.5));
         if (div >= 1 - PERCENT) {
-          let rest =
+          let rest: number =
             this.state.contentSize.height -
             this.state.scrollY -
             this.state.layout.height;
-          if (parseInt(rest) >= 0) {
+          if (parseInt(String(rest)) >= 0) {
             if (rest <= added) {
               this.setState(
                 { addedHeight: this.state.addedHeight + rest },
@@ -67,8 +118,8 @@ class DragAndDrop extends Container {
           }
         } else if (div <= PERCENT) {
           if (this.state.scrollY > 0) {
-            let rest = this.state.scrollY - added;
-            if (parseInt(rest) <= 0) {
+            let rest: number = this.state.scrollY - added;
+            if (parseInt(String(rest)) <= 0) {
               this.setState(
                 { addedHeight: this.state.addedHeight - this.state.scrollY },
                 cb2
@@ -91,7 +142,7 @@ class DragAndDrop extends Container {
       }, 800);
     }
 
-    const zones = [...this.state.zones];
+    const zones: [any] = [...this.state.zones];
     for (let z of zones) {
       if (zoneKeyExtractor(z) === zoneId) {
         z.dragged = true;
@@ -154,6 +205,7 @@ class DragAndDrop extends Container {
           } else {
             let itemIndex = zone?.items.findIndex((i) => ke(i) === ke(item));
             if (itemIndex === -1) {
+              ReactNodeArray;
               if (maxItemsPerZone && maxItemsPerZone === zone.items.length) {
                 ok = false;
               } else {
@@ -173,11 +225,13 @@ class DragAndDrop extends Container {
       }
       this.setState({ changed: true }, () => {
         this.setState({ changed: false }, () => {
+          //@ts-ignore
           this.setState({ zones, items });
         });
       });
       onMaj(
-        zones.map((z) => {
+        //@ts-ignore
+        zones.map((z: any) => {
           const { layout, dragged, ...rest } = z;
           return rest;
         }),
@@ -190,6 +244,7 @@ class DragAndDrop extends Container {
       }
       this.setState({ changed: true }, () => {
         this.setState({ changed: false }, () => {
+          //@ts-ignore
           this.setState({ zones: oldZones, items: oldItems });
         });
       });
@@ -216,7 +271,7 @@ class DragAndDrop extends Container {
     } = this.props;
     const { items, zones, dragging, itemsContainerLayout } = this.state;
     // if (this.state.changed) return <View style={style} />;
-    const otherStyle = {};
+    const otherStyle: ViewStyle = {};
     if (this.state.dragging) {
       otherStyle.zIndex = 2;
       otherStyle.elevation = 2;
@@ -225,7 +280,7 @@ class DragAndDrop extends Container {
       <ScrollView
         onContentSizeChange={(width, height) => {
           this.setState({ contentSize: { width, height } });
-          this.onSetLayout();
+          this.onSetLayout(null);
         }}
         disableScrollViewPanResponder={true}
         scrollEnabled={!this.state.dragging}

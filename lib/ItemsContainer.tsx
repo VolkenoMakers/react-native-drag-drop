@@ -1,9 +1,43 @@
-import React from "react";
+import React, { ReactElement, ReactNodeArray } from "react";
 import { View } from "react-native";
-import Container from "./Container";
 import DragItem from "./DragItem";
+import { PanResponderGestureState, ViewStyle } from "react-native";
+import Container, {
+  ContainerProps,
+  ContainerState,
+  LayoutProps,
+} from "./Container";
 
-class ItemsContainer extends Container {
+interface ItemsContainerState extends ContainerState {
+  layout: LayoutProps;
+}
+interface ItemsContainerProps extends ContainerProps {
+  addedHeight: number;
+  onDrag: (
+    gestureState: PanResponderGestureState,
+    layout: LayoutProps,
+    cb: Function,
+    zoneId: any
+  ) => any;
+  onGrant: (value: boolean) => any;
+  onDragEnd: (gesture: PanResponderGestureState) => boolean;
+  draggedElementStyle?: ViewStyle;
+  layout?: LayoutProps;
+  style?: ViewStyle;
+  dragging: boolean;
+  itemsContainerHeightFixe?: boolean;
+  itemKeyExtractor: (item: any) => number | string;
+  itemsInZoneStyle?: ViewStyle;
+  itemsContainerStyle?: ViewStyle;
+  onLayout?: (layout: LayoutProps) => any;
+  items: [any];
+  renderItem: (item: any) => ReactElement;
+}
+class ItemsContainer extends Container<
+  ItemsContainerProps,
+  ItemsContainerState
+> {
+  ref = React.createRef<View>();
   onLayoutCallback = () => {
     this.props.onLayout(this.state.layout);
   };
@@ -24,7 +58,7 @@ class ItemsContainer extends Container {
       itemsInZoneStyle,
       items,
     } = this.props;
-    const newStyle = {};
+    const newStyle: ViewStyle = {};
     if (dragging) {
       newStyle.zIndex = 10000;
     }
@@ -36,7 +70,7 @@ class ItemsContainer extends Container {
     return (
       <View
         onLayout={(e) => {
-          this.onSetLayout();
+          this.onSetLayout(e);
         }}
         style={[itemsContainerStyle, newStyle]}
       >
