@@ -205,7 +205,6 @@ class DragAndDrop extends Container<DragAndDropProps, DragAndDropState> {
           } else {
             let itemIndex = zone?.items.findIndex((i) => ke(i) === ke(item));
             if (itemIndex === -1) {
-              ReactNodeArray;
               if (maxItemsPerZone && maxItemsPerZone === zone.items.length) {
                 ok = false;
               } else {
