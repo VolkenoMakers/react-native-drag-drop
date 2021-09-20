@@ -1,7 +1,7 @@
 {
   "name": "volkeno-react-native-drag-drop",
-  "version": "1.0.7",
-  "description": "a react native drag and drop module developped by volkeno",
+  "version": "1.0.8",
+  "description": "A react native drag and drop module developped by volkeno",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -7,6 +7,7 @@ import {
   PanResponderInstance,
   Pressable,
   ViewStyle,
+  // Vibration,
 } from "react-native";
 import { LayoutProps } from "./Container";
 
@@ -23,7 +24,7 @@ export interface DraggableProps {
     gestureState: PanResponderGestureState,
     layout: LayoutProps,
     cb: Function,
-    zoneId: any
+    zoneId?: any
   ) => any;
   onGrant: (value: boolean) => any;
   onDragEnd: (gesture: PanResponderGestureState) => boolean;
@@ -60,6 +61,8 @@ class Draggable extends Component<DraggableProps, DraggableState> {
           this.state.pan.setValue({ x: 0, y: 0 });
         }
         return { ...old, dragging: false, pressed: false };
+      } else {
+        this.props.onGrant(false);
       }
       return old;
     });
@@ -69,8 +72,8 @@ class Draggable extends Component<DraggableProps, DraggableState> {
   };
   UNSAFE_componentWillMount() {
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (e, gesture) => this.state.pressed,
-      onPanResponderGrant: (e, gesture) => {
+      onStartShouldSetPanResponder: () => this.state.pressed,
+      onPanResponderGrant: () => {
         this.props.onGrant(true);
         this.setState({ dragging: true });
         this.state.pan.setValue({ x: 0, y: 0 });
@@ -109,7 +112,11 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       >
         <Pressable
           delayLongPress={400}
-          onLongPress={() => this.setState({ pressed: true })}
+          onLongPress={() =>
+            this.setState({ pressed: true }, () => {
+              // Vibration.vibrate([0, 10]);
+            })
+          }
         >
           {this.props.children}
         </Pressable>
