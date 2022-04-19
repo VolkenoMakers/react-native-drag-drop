@@ -1,10 +1,6 @@
 # volkeno-react-native-drag-drop
 
-<<<<<<< HEAD
 ![Usage](https://raw.githubusercontent.com/VolkenoMakers/react-native-drag-drop/files/demo.gif)
-=======
-![Single select](https://raw.githubusercontent.com/VolkenoMakers/react-native-drag-drop/main/demo.gif)
->>>>>>> bb934fcff6a0100a3ada74f6eff4aac3fd6f6c52
 
 ## Add it to your project
 
@@ -136,7 +132,6 @@ const styles = StyleSheet.create({
 
 ## Properties
 
-<<<<<<< HEAD
 | Property name              | Type               | Description                                                                                                |
 | -------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------- |
 | **style**                  | _Object_           | Custom style for ScrollView component                                                                      |
@@ -262,25 +257,5 @@ const styles = StyleSheet.create({
 ```
 
 ![Usage with multiple collumns](https://raw.githubusercontent.com/VolkenoMakers/react-native-drag-drop/files/demo1.gif)
-=======
-| Property name             | Type             | Description                                                                                                |
-| ------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------- |
-| **style**                 | _Object_         | Custom style for ScrollView component                                                                      |
-| **draggedElementStyle**   | _Object_         | Custom style for the dragged item                                                                          |
-| **maxItemsPerZone**       | _Number_         | max items inside a drop area default to null (no limit)                                                    |
-| **headerComponent**       | **ReactElement** | render a header                                                                                            |
-| **footerComponent**       | **ReactElement** | render a footer                                                                                            |
-| **contentContainerStyle** | _Object_         | Custom style for ScrollView contentContainerStyle                                                          |
-| **itemKeyExtractor**      | _Function_       | function that take an item as a parameter then return the id of the item                                   |
-| **zoneKeyExtractor**      | _Function_       | function that take a zone as a parameter then return the id of the item                                    |
-| **zones**                 | _Array_          | array contains the drops area                                                                              |
-| **items**                 | _Array_          | array contains draggable items                                                                             |
-| **itemsContainerStyle**   | _Object_         | Custom style for the container of the draggable items                                                      |
-| **zonesContainerStyle**   | _Object_         | Custom style for the container of the drop zones                                                           |
-| **itemsInZoneStyle**      | _Object_         | Custom style for the item in the drop area                                                                 |
-| **onMaj**                 | _Function_       | The callback function trigger when there are changes on the items or the zones                             |
-| **renderItem**            | _Function_       | Function to render an item                                                                                 |
-| **renderZone**            | _Function_       | Function to render a drop zone **important** the chidren parameter is the draggable items in the drop area |
->>>>>>> bb934fcff6a0100a3ada74f6eff4aac3fd6f6c52
 
 **ISC Licensed**
