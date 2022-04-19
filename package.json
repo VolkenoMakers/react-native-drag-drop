@@ -13,9 +13,11 @@
   "keywords": [
     "react-native",
     "react-native-component",
+    "drag-drop"
     "react-native-drag-drop",
     "volkeno",
-    "drag-and-drop"
+    "drag-and-drop",
+    "babacarMbengue12"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
