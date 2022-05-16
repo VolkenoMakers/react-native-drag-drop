@@ -22,7 +22,7 @@ class Container<
   ref: any;
   onLayoutCallback = () => {};
   UNSAFE_componentWillReceiveProps({ changed }: ContainerProps) {
-    if (changed && !this.props.changed && this.state.mounted) {
+    if (changed && !this.props.changed && this.state?.mounted) {
       this.onSetLayout(null);
     }
   }
@@ -62,6 +62,10 @@ class Container<
             this.onLayoutCallback
           );
         }
+      } else {
+        setTimeout(() => {
+          this.onSetLayout(e);
+        }, 1000);
       }
     }
   };

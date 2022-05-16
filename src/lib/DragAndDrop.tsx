@@ -67,8 +67,36 @@ class DragAndDrop extends Container<DragAndDropProps, DragAndDropState> {
     addedHeight: 0,
     mounted: false,
   };
-  timeout: NodeJS.Timeout | null = null;
+  timeout: number | null = null;
   ref = React.createRef<ScrollView>();
+
+  UNSAFE_componentWillReceiveProps(nextProps: DragAndDropProps) {
+    const newState: { items?: any[]; zones?: any[] } = {};
+    if (nextProps.items !== this.props.items) {
+      newState.items = nextProps.items;
+    }
+    if (nextProps.zones !== this.props.zones) {
+      newState.zones = nextProps.zones;
+      for (let zone of newState.zones) {
+        const finded = this.state.zones.find(
+          (z) =>
+            nextProps.zoneKeyExtractor(zone) === nextProps.zoneKeyExtractor(z)
+        );
+        if (finded) {
+          zone.layout = finded.layout;
+        }
+      }
+    }
+    if (newState.items || newState.zones) {
+      //@ts-ignore
+      this.setState(newState, () => {
+        this.setState({ changed: true }, () => {
+          this.setState({ changed: false });
+        });
+      });
+    }
+  }
+
   onDrag = (
     gesture: PanResponderGestureState,
     layoutElement: LayoutProps | null,
@@ -188,7 +216,6 @@ class DragAndDrop extends Container<DragAndDropProps, DragAndDropState> {
     this.setState({ zones });
   };
   onDragEnd = (item: any) => {
-    const oldItems = this.state.items.map((i) => ({ ...i }));
     const oldZones = this.state.zones.map((i) => ({ ...i }));
     const { maxItemsPerZone } = this.props;
     let ok = true;
@@ -257,12 +284,6 @@ class DragAndDrop extends Container<DragAndDropProps, DragAndDropState> {
         z.layout.hover = false;
         z.dragged = false;
       }
-      this.setState({ changed: true }, () => {
-        this.setState({ changed: false }, () => {
-          //@ts-ignore
-          this.setState({ zones: oldZones, items: oldItems });
-        });
-      });
     }
 
     return false;
